@@ -1,0 +1,97 @@
+package grade;
+
+import java.util.*;
+
+public class ScanGrade {
+    // 录入成绩时用于迭代的数据
+    private static int count = 0;
+    // 要录入的学生人数
+    private static int num_of_student;
+    // Scanner没啥好说的惹
+    private static Scanner scanner;
+    // 临时存储一次录入的成绩变量
+    private static int grade;
+    // 用于存储录入的学生的成绩数组
+    private static Grade[] grades;
+
+    /**
+     * get the grade of the specific number of  students
+     */
+    private static void inputScore() {
+        // 将学生人数设为10. 可如下利用scanIfInt()、scanIfGrade()两个函数
+        // 进行学生人数变量的自主输入以及使用
+        num_of_student = 10;
+
+        // 根据学生人数initialize Grade array
+        grades = new Grade[num_of_student];
+
+        // 循环输入学生的成绩
+        while (count++ < num_of_student) {
+            System.out.println("·请输入第" + count + "位学生的成绩:");
+            // 如果输入满足两个函数，则录入该成绩
+            if (scanIfInt() && scanIfGrade()) {
+                // 根据成绩建立Grade对象并传给数组
+                grades[count-1] = new Grade(grade);
+
+                // try catch这一段搞空事，模拟数据的慢慢载入，可将其注释掉
+                try {
+                    // Thread.sleep(mills) 方法是让当前线程睡眠多少多少ms
+                    System.out.print("成绩录入中");
+                    Thread.sleep(500);
+                    System.out.print("·");
+                    Thread.sleep(500);
+                    System.out.print("·");
+                    Thread.sleep(500);
+                    System.out.println("· 录入成功！");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                System.out.println("----------------------------------------");
+                // 成功录入一个学生的信息
+            }
+        }
+    }
+
+    /**
+     * check if the input is a Integer
+     * @return
+     */
+    private static boolean scanIfInt() {
+        scanner = new Scanner(System.in);
+        // 当scanner读到键盘输入的数据非int型，提示重新输入
+        while (!scanner.hasNextInt()) {
+            System.out.println("输入有误！请重新输入：");
+            scanner = new Scanner(System.in);
+        }
+        // 当scanner读取到整型数据，将其存储在grade中
+        grade = scanner.nextInt();
+        return true;
+    }
+
+    /**
+     * check the input if a legal Integer
+     * @return
+     */
+    private static boolean scanIfGrade() {
+        // 当grade不在0-100内，循环纠正
+        while (grade < 0 || grade > 100) {
+            System.out.println("输入有误！请重新输入：");
+            // 再次输入同样需满足整型一要求
+            scanIfInt();
+        }
+        return true;
+    }
+
+
+    public static void main(String []args) {
+        System.out.println("--------------学生成绩系统--------------");
+        inputScore();
+        System.out.println("学生的成绩信息如下：");
+        for (int i = 0; i < num_of_student; i++) {
+            System.out.println("第" + (i+1) + "名同学的成绩为 " + grades[i].getGrade() + ", " +
+                    "对应的等级为 " + grades[i].getLevel());
+        }
+        System.out.println("----------------------------------------");
+    }
+}

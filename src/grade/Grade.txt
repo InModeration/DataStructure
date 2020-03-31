@@ -1,0 +1,27 @@
+package grade;
+
+public class Grade {
+    private int grade;
+    private String level;
+
+    // 构造器，传入grade并根据grade为level赋值
+    public Grade(int grade) {
+        this.grade = grade;
+        judgeGrade();
+    }
+
+    // 获取grade和level
+    public int getGrade() {return grade;}
+    public String getLevel() {return level;}
+
+    /**
+     * judge level by grade
+     */
+    public void judgeGrade() {
+        if (this.grade >= 90) this.level = "A";
+        else if (this.grade < 90 && this.grade >= 80) this.level = "B";
+        else if (this.grade < 80 && this.grade >= 70) this.level = "C";
+        else if (this.grade < 60) this.level = "F";
+        else this.level = "D";
+    }
+}
